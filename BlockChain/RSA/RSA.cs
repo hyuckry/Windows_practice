@@ -2,7 +2,7 @@
 
 namespace RSA
 {
-    public class Class1
+    public class RSA
     {
     }
 }
