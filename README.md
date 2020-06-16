@@ -3,10 +3,15 @@ WPF, winform, MFC ... for windows
 
 
 Welcome to .NET Core: http://dotnet.github.io
+
 .NET Core Command-Line Interface (CLI) tool: https://aka.ms/dotnet-cli-docs
+
 .NET Core runtime, CoreCLR: https://github.com/dotnet/coreclr/
+
 .NET Core Roadmap: https://github.com/dotnet/core/blob/master/roadmap.md
+
 .NET Standard FAQ: https://github.com/dotnet/standard/blob/master/docs/faq.md
+
 Stack Overflow: http://stackoverflow.com/
 Google Advanced Search: http://www.google.com/advanced_search
 Microsoft Virtual Academy: https://mva.microsoft.com/
