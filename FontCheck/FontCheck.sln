@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fsFontCheckLib", "fsFontCheckLib\fsFontCheckLib.csproj", "{0F685C70-3262-4AE4-BED7-4729D413FBBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fsFontCheckLibTests", "fsFontCheckLibTests\fsFontCheckLibTests.csproj", "{F59E59A1-ED64-4157-93FC-C6288D4B41C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F685C70-3262-4AE4-BED7-4729D413FBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F685C70-3262-4AE4-BED7-4729D413FBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F685C70-3262-4AE4-BED7-4729D413FBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F685C70-3262-4AE4-BED7-4729D413FBBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {063A57EF-3B3B-4B5A-B74E-279B35C4A47F}
+	EndGlobalSection
+EndGlobal
