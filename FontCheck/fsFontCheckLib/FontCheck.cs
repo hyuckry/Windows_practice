@@ -1,79 +1,178 @@
-﻿using iTextSharp.text.pdf;
+﻿ 
+using Syncfusion.DocIO.DLS;
+using SfPDF = Syncfusion.Pdf.Parsing;
+using Syncfusion.Presentation;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Diagnostics; 
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq; 
 
 namespace fsFontCheckLib
 {
     public class FontCheck
-    {
-        List<string> GetFontList(string filePath)
+    { 
+        /// <summary>
+        /// Syncfusion Word ->DocIO
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static List<string> fromWordSf(string filePath)
         {
-            List<string> lstFont = new List<string>();
-            fromPDFFile(filePath);
+            HashSet<string> lstFont = new HashSet<string>();
 
-            return lstFont;
-
-        }
-
-        public static void fromPDFFile(string filePath)
-        {
-            PdfReader reader = new PdfReader(filePath);
-            HashSet<String> names = new HashSet<string>();
-            PdfDictionary resources;
-            for (int p = 1; p <= reader.NumberOfPages; p++)
+            //Opens an existing document from file system through constructor of WordDocument class
+            //using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (WordDocument doc = new WordDocument(filePath))
             {
-                PdfDictionary dic = reader.GetPageN(p);
-                resources = dic.GetAsDict(PdfName.RESOURCES);
-
-                if (resources != null)
+                var fonttaable = doc.Document.FontSubstitutionTable;
+                foreach (var font in fonttaable.Values)
                 {
-                    //get fonts dictionary
-                    PdfDictionary fonts = resources.GetAsDict(PdfName.FONT);
-                    if (fonts != null)
+                    lstFont.Add(font);
+                } 
+            } 
+
+
+            return lstFont.ToList();
+        }
+        /// <summary>
+        /// Syncfusion Xls->XlsIO
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static List<string> fromXlsFileSf(string filePath)
+        {
+            HashSet<string> lstFont = new HashSet<string>();
+
+            //Creates a new instance for ExcelEngine
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            //Load the file into stream
+            using (FileStream inputStream = new FileStream(filePath, FileMode.Open))
+            {
+                //Loads or open an existing workbook through Open method of IWorkbooks
+                IWorkbook workbook = excelEngine.Excel.Workbooks.Open(inputStream);
+                string standardfont = workbook.StandardFont;                 
+               
+                foreach (var sheet in workbook.Worksheets)
+                {
+                    foreach (var cell in sheet.UsedRange.Cells)
                     {
-                        PdfDictionary font;
-                        foreach (PdfName key in fonts.Keys)
-                        {
-                            font = fonts.GetAsDict(key);
-                            String name = font.GetAsName(PdfName.BASEFONT).ToString();
-
-                            //check for prefix subsetted font
-                            if (name.Length > 8 && name.ToCharArray()[7] == '+')
-                            {
-                                name = String.Format("%s subset (%s)", name.Substring(8), name.Substring(1, 7));
-
-                            }
-                            else
-                            {
-                                //get type of fully embeded fonts
-                                name = name.Substring(1);
-                                PdfDictionary desc = font.GetAsDict(PdfName.FONTDESCRIPTOR);
-                                if (desc == null)
-                                    name += " no font descriptor";
-                                else if (desc.Get(PdfName.FONTFILE) != null)
-                                    name += " (Type 1) embedded";
-                                else if (desc.Get(PdfName.FONTFILE2) != null)
-                                    name += " (TrueType) embedded";
-                                else if (desc.Get(PdfName.FONTFILE3) != null)
-                                    name += " (" + font.GetAsName(PdfName.SUBTYPE).ToString().Substring(1) + ") embedded";
-                            }
-                            names.Add(name);
-                        }
-
+                        lstFont.Add(cell.CellStyle.Font.FontName);
                     }
+                } 
+            }
+
+            return lstFont.ToList();
+        }
+        /// <summary>
+        /// Syncfusion PPT->Presentation
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static List<string> fromPptFileSf(string filePath)
+        {
+            HashSet<string> lstFont = new HashSet<string>();
+
+            //Opens an existing Presentation from file system 
+            IPresentation ppt = Presentation.Open(filePath);
+            foreach (var slide in ppt.Slides)
+            {
+                foreach (Syncfusion.Presentation.IShape shape in slide.Shapes)
+                { 
+                    if(shape is ITable)
+                    {
+                        ITable table = shape as ITable;
+                        //Iterate all the cells in the table and gets the text 
+                        foreach (IRow row in table.Rows)
+                        {
+                            foreach (ICell cell in row.Cells)
+                            { 
+                                foreach (IParagraph paragraph in cell.TextBody.Paragraphs)
+                                {
+                                    foreach (ITextPart textpart in paragraph.TextParts)
+                                    {
+                                        lstFont.Add(textpart.Font.FontName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(shape is ISmartArt)
+                    {
+                        ISmartArt smartArt = shape as ISmartArt;
+                        foreach (ISmartArtNode node in smartArt.Nodes)
+                        {
+                            foreach (IParagraph paragraph in node.TextBody.Paragraphs)
+                            {
+                                foreach (ITextPart textpart in paragraph.TextParts)
+                                {
+                                    lstFont.Add(textpart.Font.FontName);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    { 
+                        foreach (IParagraph paragraph in shape.TextBody.Paragraphs)
+                        {
+                            foreach (ITextPart textpart in paragraph.TextParts)
+                            {
+                                lstFont.Add(textpart.Font.FontName);
+                            }
+                        }
+                    } 
                 }
             }
-            var collections = from name in names
-                              select name;
-            foreach (String fname in collections)
-            {
-               Trace.WriteLine(fname);
-            }
-            //Console.Read();
+            ppt.Close(); 
+
+            return lstFont.ToList();
         }
+
+
+        /// <summary>
+        /// Syncfusion PDF 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static List<string> fromPDFFileSf(string filePath)
+        {
+            HashSet<string> lstFont = new HashSet<string>();
+
+            //Opens an existing document from file system through constructor of WordDocument class
+            //using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (SfPDF.PdfLoadedDocument pdf = new SfPDF.PdfLoadedDocument(filePath))
+            { 
+                foreach (var font in pdf.UsedFonts)
+                {
+                    //Replace font 
+                    //loadedDocument.UsedFonts[0].Replace(new PdfStandardFont(PdfFontFamily.Courier, 12));
+                    //var utf = Encoding.UTF8;
+                    //byte[] utfbyte = utf.GetBytes(font.Name);
+                    //string strName = utf.GetString(utfbyte, 0, utfbyte.Length);
+
+
+                    byte[] myByteArray = new byte[font.Name.Length];
+                    for (int ix = 0; ix < font.Name.Length; ++ix)
+                    {
+                        char ch = font.Name[ix];
+                        myByteArray[ix] = (byte)ch;
+                    }
+
+                    string strName   = Encoding.UTF8.GetString(myByteArray, 0, font.Name.Length);
+
+
+                    lstFont.Add(strName);
+                }
+            }
+
+
+            return lstFont.ToList();
+        }
+        
+
     }
 }

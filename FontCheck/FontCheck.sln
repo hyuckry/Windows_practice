@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fsFontCheckLib", "fsFontChe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fsFontCheckLibTests", "fsFontCheckLibTests\fsFontCheckLibTests.csproj", "{F59E59A1-ED64-4157-93FC-C6288D4B41C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HwpTestWpf", "HwpTestWpf\HwpTestWpf.csproj", "{5FB708CF-AE02-4EB3-AA77-583A78351E9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fsHWPAxLib", "fsHWPAxLib\fsHWPAxLib.csproj", "{5B016543-FB6D-4E3C-BC3C-7332B7BDF437}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TESTS", "TESTS", "{892CC7C0-C540-4202-A1F1-A836BDD54524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +27,21 @@ Global
 		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F59E59A1-ED64-4157-93FC-C6288D4B41C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB708CF-AE02-4EB3-AA77-583A78351E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB708CF-AE02-4EB3-AA77-583A78351E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB708CF-AE02-4EB3-AA77-583A78351E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB708CF-AE02-4EB3-AA77-583A78351E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B016543-FB6D-4E3C-BC3C-7332B7BDF437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B016543-FB6D-4E3C-BC3C-7332B7BDF437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B016543-FB6D-4E3C-BC3C-7332B7BDF437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B016543-FB6D-4E3C-BC3C-7332B7BDF437}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F59E59A1-ED64-4157-93FC-C6288D4B41C3} = {892CC7C0-C540-4202-A1F1-A836BDD54524}
+		{5FB708CF-AE02-4EB3-AA77-583A78351E9D} = {892CC7C0-C540-4202-A1F1-A836BDD54524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {063A57EF-3B3B-4B5A-B74E-279B35C4A47F}
